@@ -1,0 +1,24 @@
+{
+  "name": "breakout-game-mdn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/praveen-me/breakout-game-mdn.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/praveen-me/breakout-game-mdn/issues"
+  },
+  "homepage": "https://github.com/praveen-me/breakout-game-mdn#readme",
+  "dependencies": {
+    "babel-preset-env": "^1.7.0"
+  }
+}
