@@ -1,65 +1,74 @@
-const canvas = document.getElementById("canvas");
+const canvas = document.querySelector('#myCanvas');
+const ctx = canvas.getContext("2d");
+let x = canvas.width / 2;
+let y = canvas.height - 30;
+let dx = 2;
+let dy = -2;
+const ballRadius = 10;
+const paddleHeight = 10;
+const paddleWidth = 75;
+let paddleX = (canvas.width - paddleWidth) / 2;
+let rightPressed = false;
+let leftPressed = false;
 
-let ctx = canvas.getContext("2d");
-canvas.width = 480;
-canvas.height = 320;
+document.addEventListener('keydown', keyDownHandler, false);
+document.addEventListener('keyup', keyUpHandler, false);
 
-
-class Ball {
-  constructor(x, y, dx, dy, radius, color){
-    this.x = x;
-    this.y = y;
-    this.dx = dx;
-    this.dy = dy;
-    this.radius = radius;
-    this.color = color;
-  }
-
-  draw() {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-    ctx.fillStyle = this.color;
-    ctx.fill();
-    ctx.closePath();
-  }
-
-  update() {
-    //Prevent Ball from goind out
-    if(this.x + this.radius > canvas.width || this.x - this.radius < 0) {
-      this.dx = -this.dx;
-    }
-
-    if(this.y + this.radius > canvas.height || this.y - this.radius < 0) {
-      this.dy = -this.dy;
-    }
-
-    this.draw();
-
-    this.x += this.dx;
-    this.y += this.dy;
+function keyDownHandler(e) {
+  if(e.keyCode === 39) {
+    rightPressed = true;
+  } else if(e.keyCode === 37) {
+    leftPressed = true;
   }
 }
 
-let ball;
-
-// function for initializing
-function init() {
-  let x = canvas.width / 2;
-  let y = canvas.height / 2;
-  let dx = 1.5;
-  let dy = 1.5;
-  let radius = 15;
-  let color = "#03a9f4";
-  ball = new Ball(x, y, dx, dy, radius, color);
+function keyUpHandler(e) {
+  if(e.keyCode === 39) {
+    rightPressed = false;
+  } else if(e.keyCode === 37) {
+    leftPressed = false;
+  }
 }
 
-function animate() {
-  requestAnimationFrame(animate);
+const drawBall = () => {
+  ctx.beginPath();  
+  ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+  ctx.fillStyle = "#0095DD";
+  ctx.fill();
+  ctx.closePath();
+}
+
+const drawPaddle = () => {
+  ctx.beginPath();
+  ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
+  ctx.fillStyle = "#0095DD";
+  ctx.fill();
+  ctx.closePath();
+}
+
+const draw = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBall();
+  drawPaddle();
 
-  ball.update();
+  if(y - ballRadius < 0 || y + ballRadius > canvas.height) {
+    dy = -dy;
+  }
+
+  if(x - ballRadius < 0 || x + ballRadius > canvas.width) {
+    dx = -dx;
+  }
+
+  if(leftPressed && paddleX > 0) {
+    paddleX -= 7;
+  } else if(rightPressed && paddleX < canvas.width - paddleWidth) {
+    paddleX += 7;
+  }
+
+  x += dx;
+  y += dy;
+
+  requestAnimationFrame(draw);
 }
 
-init();
-animate();
-
+draw();
