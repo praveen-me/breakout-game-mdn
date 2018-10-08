@@ -127,6 +127,7 @@ const draw = () => {
   drawPaddle();
   collisionDetaction();
   drawScore();
+  drawLives();
 
   if(y + dy < ballRadius) {
     dy = -dy;
