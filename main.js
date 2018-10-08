@@ -17,6 +17,7 @@ const brickHeight = 20;
 const brickPadding = 10;
 const brickOffsetTop = 30;
 const brickOffsetLeft = 30;
+let score = 0;
 
 let bricks = [];
 for(let c = 0; c < brickColumnCount; c++) {
@@ -45,6 +46,12 @@ function keyUpHandler(e) {
   }
 }
 
+const drawScore = () => {
+  ctx.font = "16px Arial";
+  ctx.fillStyle = "#0095DD";
+  ctx.fillText("Score - "+score, 8 , 20);
+}
+
 let collisionDetaction = () => {
   for(let c = 0; c < brickColumnCount; c++) {
     for(let r = 0; r < brickRowCount; r++) {
@@ -53,6 +60,11 @@ let collisionDetaction = () => {
         if(x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
           dy = -dy;
           b.status = 0;
+          score++;
+          if(score === brickRowCount * brickColumnCount) {
+            alert("CONGRATULATION!! YOU WON THE GAME.")
+            document.location.reload();
+          }
         }
       }
     }
@@ -99,6 +111,7 @@ const draw = () => {
   drawBall();
   drawPaddle();
   collisionDetaction();
+  drawScore();
 
   if(y + dy < ballRadius) {
     dy = -dy;
