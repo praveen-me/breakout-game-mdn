@@ -51,8 +51,14 @@ const draw = () => {
   drawBall();
   drawPaddle();
 
-  if(y - ballRadius < 0 || y + ballRadius > canvas.height) {
+  if(y + dy < ballRadius) {
     dy = -dy;
+  } else if(y + dy > canvas.height - ballRadius) {
+    if(x > paddleX && x < paddleX + paddleWidth) {
+      dy = -dy;
+    } else {  
+      document.location.reload();
+    } 
   }
 
   if(x - ballRadius < 0 || x + ballRadius > canvas.width) {
