@@ -1,5 +1,5 @@
 const canvas = document.querySelector('#myCanvas');
-const ctx = canvas.getContext("2d");
+const ctx = canvas.getContext('2d');
 let x = canvas.width / 2;
 let y = canvas.height - 30;
 let dx = 2;
@@ -32,6 +32,7 @@ document.addEventListener('keydown', keyDownHandler, false);
 document.addEventListener('keyup', keyUpHandler, false);
 document.addEventListener('mousemove', mouseMoveHandler, false);
 
+// function for down key
 function keyDownHandler(e) {
   if(e.keyCode === 39) {
     rightPressed = true;
@@ -40,6 +41,7 @@ function keyDownHandler(e) {
   }
 }
 
+// function for up key
 function keyUpHandler(e) {
   if(e.keyCode === 39) {
     rightPressed = false;
@@ -48,6 +50,7 @@ function keyUpHandler(e) {
   }
 }
 
+// function when the mouse is going to move
 function mouseMoveHandler(e) {
   let relativeX = e.clientX - canvas.offsetLeft;
   if(relativeX > 0 && relativeX < canvas.width) {
@@ -55,18 +58,21 @@ function mouseMoveHandler(e) {
   }
 }
 
+// function for drawing score for the game
 const drawScore = () => {
-  ctx.font = "16px Arial";
-  ctx.fillStyle = "#0095DD";
-  ctx.fillText("Score - "+score, 8 , 20);
-}
+  ctx.font = '16px Arial';
+  ctx.fillStyle = '#0095DD';
+  ctx.fillText('Score - '+score, 8 , 20);
+};
 
+// function for drawing player lives for game
 const drawLives = () => {
-  ctx.font = "16px Arial";
-  ctx.fillStyle = "#0095DD";
-  ctx.fillText("Lives: "+lives, canvas.width - 65, 20);
-}
+  ctx.font = '16px Arial';
+  ctx.fillStyle = '#0095DD';
+  ctx.fillText('Lives: '+lives, canvas.width - 65, 20);
+};
 
+// function for collision detection of ball and  paddle
 let collisionDetaction = () => {
   for(let c = 0; c < brickColumnCount; c++) {
     for(let r = 0; r < brickRowCount; r++) {
@@ -77,31 +83,34 @@ let collisionDetaction = () => {
           b.status = 0;
           score++;
           if(score === brickRowCount * brickColumnCount) {
-            alert("CONGRATULATION!! YOU WON THE GAME.")
+            alert('CONGRATULATION!! YOU WON THE GAME.');
             document.location.reload();
           }
         }
       }
     }
   }
-}
+};
 
+// function for drawing ball
 const drawBall = () => {
   ctx.beginPath();  
   ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-  ctx.fillStyle = "#0095DD";
+  ctx.fillStyle = '#0095DD';
   ctx.fill();
   ctx.closePath();
-}
+};
 
+// function for drwaing paddle
 const drawPaddle = () => {
   ctx.beginPath();
   ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
-  ctx.fillStyle = "#0095DD";
+  ctx.fillStyle = '#0095DD';
   ctx.fill();
   ctx.closePath();
-}
+};
 
+// function for drawing brick
 let drawBricks = () => {
   for(let c = 0; c < brickColumnCount; c++) {
     for(let r = 0; r < brickRowCount; r++) {
@@ -120,6 +129,7 @@ let drawBricks = () => {
   }
 };
 
+// function for draw the game
 const draw = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBricks();
@@ -137,7 +147,7 @@ const draw = () => {
     } else {  
       lives--;
       if(!lives) {
-        alert("GAME OVER!!");
+        alert('GAME OVER!!');
         document.location.reload();
       } else {
         x = canvas.width / 2;
@@ -163,6 +173,6 @@ const draw = () => {
   y += dy;
 
   requestAnimationFrame(draw);
-}
+};
 
 draw();
